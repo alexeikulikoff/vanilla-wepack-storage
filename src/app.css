@@ -1,0 +1,47 @@
+h1 {
+  text-align: center;
+}
+.input-range{
+	display : block;
+}
+.app{
+	width : 600px;
+	height : 600px;
+}
+.tools{
+	list-style : none;
+	display : block;
+}
+.button-conteiner{
+	padding-bottom : 45px;
+	
+}
+.range-container{
+	clear : both;
+}
+.graph-conteiner{
+	width : 400px;
+	height : 400px;
+}
+.tools li {
+  float: left;
+  list-style: none;
+  text-align: center;
+  background-color: #000000;
+  margin-right: 15px;
+  width: 95px;
+  line-height: 40px;
+  border-radius : 4px;
+}
+.tools li a {
+  text-decoration: none;
+  color: #FFFFFF;
+  display: block;
+}
+
+.tools li a:hover {
+  text-decoration: none;
+  color: #000000;
+  background-color: #33B5E5;
+}
+
