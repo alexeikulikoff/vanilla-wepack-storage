@@ -8,8 +8,11 @@ export default class Controller {
 		this.store = store;
 		this.view = view;
 		this.view.showRangeList( store.getContent() );
-		this.view.bindMoveRange( this.store );
-		this.view.drayPie( this.store );
+		this.view.bindMoveRange( this.store, this.view );
+		
+		this.view.bindMouseMoveRange( this.store, this.view );
+		const dim = this.view.initPie( this.store );
+		this.view.drayPie( this.store,  dim);
 	}
 	
 	setView( items ) {

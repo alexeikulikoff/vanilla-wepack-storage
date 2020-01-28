@@ -9,6 +9,7 @@ const pie = [{color : 'red', value : '50'}, {color : 'green', value : '50'},{col
 const store = new Store('todos-vanilla-es6');
 store.insert( pie );
 
+const localStorage = window.localStorage;
 
 const template = new Template();
 
@@ -23,24 +24,67 @@ window.addEventListener("hashchange", function( event ){
 				
 });
 
+
+var family = [ { firstName:  'Doroty' , lastname: 'Gamble' }, { firstName:  'Smith', lastname: 'Buble' }, { firstName:  'kate',lastname: 'Ramble' }   ];
+
+class ULBind{
+	constructor( value ){
+		const _this = this;
+	
+		this.value = value;
+		this.updateList = function(){
+			//document.getElementById("data-list").innerHTML = this.value.reduce((a, item) => a + `<li> ${item.firstName}</li> `, '');
+			
+			document.getElementById("data-list").innerHTML =  this.value.map((s)=>{
+				return `<li> ${s.firstName}</li> `
+			}).join('');
+			
+		}
+		this.add = function( val ){
+			this.value.push(val);
+			this.updateList();
+		}
+		this.remove = function(){
+			this.value.pop();
+			this.updateList();
+		}		
+		this.init = function(){
+			this.updateList();
+		}		
+	}
+
+}
+const list = new ULBind( family );
+list.init();
+
+const button1 = document.getElementById("add-data-btn");
+
+button1.addEventListener('click', function(event){
+	list.add({ firstName:  'Doroty' , lastname: 'Gamble' });
+});
+
+const button2 = document.getElementById("remove-data-btn");
+
+button2.addEventListener('click', function(event){
+	list.remove();
+});
+
+
 class Binding {
 	constructor(b){
 		const _this = this;
-		console.log(this);
-    	this.elementBindings = [];
-    	
-		this.value = b.object[b.property];
 		
-		this.total = 1000;
-	
+		this.elementBindings = [];
+
+  		this.value = b.object[b.property];
+
     	this.valueGetter = function(){
         	return _this.value;
     	}
     	this.valueSetter = function(val){
-        	_this.value = val;
-        	for (var i = 0; i < _this.elementBindings.length; i++) {
-            	var binding=_this.elementBindings[i];
-            	binding.element[binding.attribute] = val;
+			var i = _this.elementBindings.length;
+        	while(i--) {
+				_this.elementBindings[ i ].element[ _this.elementBindings[ i ].attribute ] = val;
         	}
     	}
     	this.addBinding = function(element, attribute, event){
@@ -55,34 +99,34 @@ class Binding {
            	 binding.event = event;
         	}       
         	this.elementBindings.push(binding)
-        	element[attribute] = _this.value
-        	return _this
+        	return _this;
     	}
  		Object.defineProperty(b.object, b.property, {
         	get: this.valueGetter,
         	set: this.valueSetter
    		}); 
 
-    	b.object[b.property] = this.value;
 	}
    
    
 }
 
 
-var obj = { abcd:123 };
+var person = {  name:  'Doroty' };
 
 var myInputElement1 = document.getElementById("myText1")
 var myInputElement2 = document.getElementById("myText2")
 var myDOMElement = document.getElementById("myDomElement")
 
-const bindAll = new Binding({ object: obj, property: "abcd" });
+const bindme = new Binding( { object: person ,  property: "name" });
 
-bindAll.addBinding(myInputElement1, "value", "keyup");
+bindme
+		.addBinding(myInputElement1, "value", "keyup")
+		.addBinding(myInputElement2, "value", "keyup")
+		.addBinding(myDOMElement, "innerHTML");
 
-bindAll.addBinding(myInputElement2, "value", "keyup");
+person.name = 'Suka sima';
 
-bindAll.addBinding(myDOMElement, "innerHTML");
 
 
 
